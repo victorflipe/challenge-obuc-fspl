@@ -1,0 +1,45 @@
+.button-wrapper button {
+    border: none;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.25rem;
+    padding: .625rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    border-radius: .5rem;
+    min-width: 7.5rem;
+    transition: ease-in-out 0.2s;
+}
+
+.button-wrapper button {
+    cursor: pointer;
+}
+
+.button-wrapper button svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.button-wrapper .primary-button {
+    background: #00569E;
+    color: white;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
+.button-wrapper .primary-button:hover {
+    background: #006AC3;
+}
+
+.button-wrapper .secondary-button {
+    border: 1px solid #CDCDCD;
+    background: #FFF;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    color: #8A92A6;
+}
+
+.button-wrapper .secondary-button:hover {
+    background: #EEE;
+}

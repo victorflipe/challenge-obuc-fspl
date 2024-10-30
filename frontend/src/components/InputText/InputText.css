@@ -1,0 +1,31 @@
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-wrapper label {
+    color: #707070;
+    font-size: 1.25rem;
+    font-size: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.5rem;
+}
+
+.input-wrapper input, .input-wrapper textarea {
+    min-width: 15rem;
+    border: none;
+    border-radius: .5rem;
+    outline: 1px solid #E9EBEF;
+    background: rgba(238, 242, 245, 0.50);
+    padding: .75rem 1.25rem;
+}
+
+.input-wrapper textarea {
+    resize: none;
+}
+
+.input-wrapper input:focus, .input-wrapper textarea:focus {
+    border: none;
+    outline: 2px solid #DBEAFB;
+}

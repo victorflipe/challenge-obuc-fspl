@@ -1,0 +1,26 @@
+.select-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-wrapper label {
+    color: #707070;
+    font-size: 1.25rem;
+    font-size: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.5rem;
+}
+
+.select-wrapper select {
+    border: none;
+    border-radius: .5rem;
+    outline: 1px solid #E9EBEF;
+    background: rgba(238, 242, 245, 0.50);
+    padding: .75rem 1.25rem;
+}
+
+.select-wrapper select:focus {
+    border: none;
+    outline: 2px solid #DBEAFB;
+}
