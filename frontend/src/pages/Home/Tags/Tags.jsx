@@ -1,8 +1,5 @@
 import { FaPlus } from "react-icons/fa";
-import InputText from "../../../components/InputText/InputText";
 import "./Tags.css";
-import Button from "../../../components/Button/Button";
-import Table from "../../../components/Table/Table";
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { MdOutlineDeleteOutline } from "react-icons/md";
