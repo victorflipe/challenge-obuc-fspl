@@ -1,8 +1,55 @@
-# React + Vite
+# Task Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é a interface para uma aplicação de gerenciamento de tarefas, utilizando o React.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js v21.6.1
+
+## Configuração do Ambiente
+
+Certifique-se de configurar as variáveis de ambiente no arquivo `.env` antes de iniciar o projeto. As variáveis necessárias são:
+
+```
+VITE_HOSTNAME_BACKEND
+```
+
+## Instalação e Uso
+
+### 1. Instale as Dependências
+
+```sh
+npm install
+```
+
+### 2. Configure as Variáveis de Ambiente
+
+Crie um arquivo `.env` com as variáveis descritas anteriormente.
+
+### 3. Inicie a aplicação
+
+```sh
+npm run dev
+```
+
+## Scripts Disponíveis
+
+- **dev**: Inicia a aplicação em modo de desenvolvimento usando o Vite.
+- **build**: Gera a versão otimizada de produção da aplicação com o Vite.
+- **lint**: Executa o ESLint para verificar o código em busca de erros e problemas de formatação.
+- **preview**: Inicia uma prévia local da versão de produção gerada com o Vite.
+
+## Dependências
+
+- **axios**
+- **prop-types**
+- **pg**
+- **pg-hstore**
+- **dotenv**
+
+### Dependências de Desenvolvimento
+
+- **eslint**
+- **vite**
+- **globals**
+
