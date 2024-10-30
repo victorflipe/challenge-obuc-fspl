@@ -43,9 +43,9 @@ npm run dev
 
 - **axios**
 - **prop-types**
-- **pg**
-- **pg-hstore**
-- **dotenv**
+- **react-icons**
+- **react**
+- **react-dom**
 
 ### Dependências de Desenvolvimento
 
