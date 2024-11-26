@@ -12,4 +12,7 @@ router.route('/tags/:id')
     .patch(tagController.updateTag)
     .delete(tagController.deleteTag)
 
+router.route('/tags-user/:assignedTo')
+    .get(tagController.getTagByUser)
+
 module.exports = router;

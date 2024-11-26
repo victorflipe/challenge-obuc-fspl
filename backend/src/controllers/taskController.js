@@ -36,6 +36,21 @@ const getTaskById = async (req, res) => {
     }
 };
 
+const getTasksByUser = async (req, res) => {
+    try {
+        const {assignedTo} = req.params;
+        const tasks = await Task.findAll({ where: { assignedTo },  include: {model: Tag, through:{attribute:[]}}});
+
+        if (tasks) {
+            return res.status(200).json(tasks);
+        } else {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
 const updateTask = async (req, res) => {
     try {
         const { title, description, status, assignedTo } = req.body;
@@ -124,5 +139,6 @@ module.exports = {
     updateTask,
     deleteTask,
     addTagsToTask,
-    updateTagsForTask
+    updateTagsForTask,
+    getTasksByUser
 }

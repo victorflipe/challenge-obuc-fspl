@@ -99,7 +99,7 @@ export default function Board({ tasks, setTasks }) {
         status: task.status,
       });
 
-      const response = await api.get("/tasks");
+      const response = await api.get(`/tasks-user/${user.name}`);
       setTasks(response.data);
 
     } catch (error) {
@@ -210,7 +210,7 @@ export default function Board({ tasks, setTasks }) {
           }
         />
 
-        <div className="input_wrapper">
+        <div className="input-wrapper">
           <label>Tags</label>
           <Select
             closeMenuOnSelect={true}
@@ -228,9 +228,10 @@ export default function Board({ tasks, setTasks }) {
               })
               )}
             defaultValue={
+              newTask.id ?
                 newTask.Tags.map((tag) =>
                   ({ label: tag.name, value: tag.id })
-                )
+                ) : ""
             } 
             />
 

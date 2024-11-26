@@ -8,26 +8,24 @@ import './Login.css'
 export default function Login() {
 
     const { user, setUser } = useContext(AppContext);
-    
+
     const handleRedirectLogin = () => {
         console.log("Redirect login...")
 
-        setUser((prev) => ({...prev, authenticated: true }))
+        setUser((prev) => ({ ...prev, authenticated: true }))
     };
 
     const handleChangeuser = (e) => {
         e.preventDefault()
-        setUser({name: e.target.value})
+        setUser({ name: e.target.value })
     }
 
 
 
     return (
         <div className="div-login">
-            <input type="text" onChange={handleChangeuser} />
-            {/* <input type="password" /> */}
-            {/* <InputText id={"input-text"} label={"Usuário"} placeholder={"Insira o seu usuário"} value={"df"}/>
-                <InputText id={"input-text"} password label={"Senha"} placeholder={"Insira a sua senha"} /> */}
+            <h1>Login</h1>
+            <input className="input-wrapper" type="text" onChange={handleChangeuser} placeholder="Insira seu nome para criar tarefas"/>
             <Button onClick={handleRedirectLogin}>Login</Button>
         </div>
 

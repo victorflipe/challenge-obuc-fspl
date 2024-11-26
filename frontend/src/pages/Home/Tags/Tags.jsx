@@ -65,9 +65,6 @@ export default function Tags({ tags, setTags }) {
 
     }
     await handleGetAllTags()
-    // const response = await api.get("/tags");
-    // const responseFiltered = response.data.filter((tag) => tag.assignedTo == userLogged.name)
-    // setTags(responseFiltered);
     setNewTag(clearNewTag);
   };
 

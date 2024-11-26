@@ -17,7 +17,8 @@ router.route('/tasks/:id/tags')
     .post(taskController.addTagsToTask)
     .put(taskController.updateTagsForTask);
 
-// router.route('/tasks/:id/tags')
+router.route('/tasks-user/:assignedTo')
+    .get(taskController.getTasksByUser)
 
 
 module.exports = router;

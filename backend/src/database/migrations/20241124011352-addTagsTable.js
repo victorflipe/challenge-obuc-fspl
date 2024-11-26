@@ -11,7 +11,10 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        unique: true,
+        allowNull: false
+      },
+      assignedTo: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {
