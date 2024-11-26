@@ -2,28 +2,36 @@ import { FaEdit, FaPlus } from "react-icons/fa";
 import Button from "../../../components/Button/Button";
 import InputText from "../../../components/InputText/InputText";
 import "./Tags.css";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { MdModeEditOutline, MdOutlineDeleteOutline, MdClose } from "react-icons/md";
 import { api } from "../../../services/api";
+import AppContext from "../../../context/AppContext";
 
 export default function Tags({ tags, setTags }) {
   const clearNewTag = {
     name: ""
   };
+  const {user} = useContext(AppContext)
   const [newTag, setNewTag] = useState(clearNewTag);
 
   const handleEditRow = (tag) => {
     setNewTag(tag);
   };
 
+  const handleGetAllTags = async () => {
+    const response = await api.get(`/tags-user/${user.name}`);
+    setTags(response.data)
+    // setTags(response);
+  }
+
   const handleCreateTag = async () => {
     try {
       await api.post("/tags", {
         name: newTag.name,
+        assignedTo: user.name
       });
-      const response = await api.get("/tags");
-      setTags(response.data);
+      await handleGetAllTags()      
     } catch (error) {
       console.error(error);
     }
@@ -34,8 +42,7 @@ export default function Tags({ tags, setTags }) {
       await api.patch(`/tags/${newTag.id}`, {
         name: newTag.name,
       });
-      const response = await api.get("/tags");
-      setTags(response.data);
+      await handleGetAllTags()
     } catch (error) {
       console.error(error);
     }
@@ -48,17 +55,20 @@ export default function Tags({ tags, setTags }) {
 
     if (!tagFiltered && !newTag.id) {
       handleCreateTag()
-      setNewTag(clearNewTag);
     } else {
       if (!tagFiltered && newTag.id || newTag.id == tagFiltered.id) {
         handleUpdateTag()
-        setNewTag(clearNewTag);
       } else {
         alert("Tag já cadastrada")
+        return
       }
 
     }
-
+    await handleGetAllTags()
+    // const response = await api.get("/tags");
+    // const responseFiltered = response.data.filter((tag) => tag.assignedTo == userLogged.name)
+    // setTags(responseFiltered);
+    setNewTag(clearNewTag);
   };
 
   const handleDeleteTag = useCallback(
@@ -76,6 +86,7 @@ export default function Tags({ tags, setTags }) {
     [newTag, setTags]
   );
 
+  // debugger
   const { headers, rows } = tags;
 
   return (
@@ -160,4 +171,5 @@ export default function Tags({ tags, setTags }) {
 Tags.propTypes = {
   tags: PropTypes.object.isRequired,
   setTags: PropTypes.func.isRequired,
+  userLogged: PropTypes.object,
 };

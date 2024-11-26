@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import "./Table.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
 
 export default function Table({ data, onOpen, setNewStatus }) {
   const { headers, rows } = data;
+  const {user} = useContext(AppContext)
 
   const groupedTasks = {};
   headers.forEach((header) => {
@@ -11,6 +14,8 @@ export default function Table({ data, onOpen, setNewStatus }) {
   });
 
   const handleEditTask = (task) => {
+    console.log(groupedTasks)
+    console.log(task)
     onOpen(task);
   };
 
@@ -40,6 +45,7 @@ export default function Table({ data, onOpen, setNewStatus }) {
   };
 
   return (
+    user.authenticated &&
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <table className="table">
         <thead className="table-header">
@@ -112,5 +118,4 @@ Table.propTypes = {
   data: PropTypes.object,
   onOpen: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  // setNewTask: PropTypes.func.isRequired,
 };

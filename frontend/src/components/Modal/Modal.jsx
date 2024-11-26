@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import { MdClose } from "react-icons/md";
 import Button from "../Button/Button";
 import { FaPlus, FaSave } from "react-icons/fa";
+import { useContext } from "react";
+import AppContext from "../../context/AppContext";
 
 export default function Modal({ isOpen, onClose, onDelete, children, title, handleSubmit, updateTask = null }) {
+  const {user} = useContext(AppContext)
+
   if (!isOpen) {
     return null;
   }

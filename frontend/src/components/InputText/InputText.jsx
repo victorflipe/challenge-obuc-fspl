@@ -6,6 +6,7 @@ export default function InputText({
   textarea,
   required,
   value="",
+  password=false,
   onChange = () => {},
 }) {
   return (
@@ -19,6 +20,19 @@ export default function InputText({
             placeholder={placeholder}
             required={required}
             onChange={onChange}
+            value={value}
+          />
+        </>
+      ) : password ? (
+        <>
+          <label htmlFor="input-password">{label}</label>
+          <input
+            onChange={onChange}
+            type="password"
+            id="input-password"
+            name="input-password"
+            placeholder={placeholder}
+            required={required}
             value={value}
           />
         </>
@@ -46,5 +60,6 @@ InputText.propTypes = {
   textarea: PropTypes.bool,
   required: PropTypes.bool,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  password: PropTypes.bool
 };

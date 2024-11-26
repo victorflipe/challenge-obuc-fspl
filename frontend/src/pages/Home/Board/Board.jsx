@@ -2,7 +2,7 @@ import { FaPlus } from "react-icons/fa";
 import Button from "../../../components/Button/Button";
 import "./Board.css";
 import Modal from "../../../components/Modal/Modal";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 import InputText from "../../../components/InputText/InputText";
 import OptionSelect from "../../../components/OptionSelect/OptionSelect";
 import Table from "../../../components/Table/Table";
@@ -10,16 +10,19 @@ import PropTypes from "prop-types";
 import { api } from "../../../services/api";
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
+import AppContext from "../../../context/AppContext";
 
-export default function Board({ tasks, setTasks, status }) {
+
+export default function Board({ tasks, setTasks }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tags, setTags] = useState([]);
+  const {user} = useContext(AppContext)
   const clearNewTask = {
     title: "",
     description: "",
     status: "",
     assignedTo: "",
-    tags: []
+    Tags: []
   };
   const [newTask, setNewTask] = useState(clearNewTask);
 
@@ -30,27 +33,19 @@ export default function Board({ tasks, setTasks, status }) {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const responseTags = await api.get("/tags");
+        const responseTags = await api.get(`/tags-user/${user.name}`);
         setTags(responseTags.data)
-      } catch (error) {
-        console.error(error)
-      }
-    };
-    fetchTags()
-    console.log(tags)
-  }, []);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const responseTasks = await api.get("/tasks");
+        const responseTasks = await api.get(`/tasks-user/${user.name}`);
         setTasks(responseTasks.data)
+
       } catch (error) {
         console.error(error)
       }
     };
-    fetchTasks()
-  }, []);
+    
+    fetchTags()
+  }, [user]);
 
   const handleCloseModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -81,17 +76,17 @@ export default function Board({ tasks, setTasks, status }) {
     try {
       const responseTask = await api.post("/tasks", {
         title: newTask.title,
-        assignedTo: newTask.assignedTo,
+        assignedTo: user.name,
         description: newTask.description,
         status: newTask.status,
-        tags: newTask.tags
+        tags: newTask.Tags
       });
 
       await api.post(`/tasks/${responseTask.data.id}/tags`, {
-        tags: newTask.tags,
+        tags: newTask.Tags,
       });
 
-      const response = await api.get("/tasks");
+      const response = await api.get(`/tasks-user/${user.name}`);
       setTasks(response.data);
     } catch (error) {
       console.error(error);
@@ -116,31 +111,31 @@ export default function Board({ tasks, setTasks, status }) {
     try {
       await api.patch(`/tasks/${newTask.id}`, {
         title: newTask.title,
-        assignedTo: newTask.assignedTo,
         description: newTask.description,
         status: newTask.status,
       });
 
       // Atualize as tags associadas à tarefa
       await api.put(`/tasks/${newTask.id}/tags`, {
-        tags: newTask.tags,
+        tags: newTask.Tags,
       });
 
-      const response = await api.get("/tasks");
+      const response = await api.get(`/tasks-user/${user.name}`);
       setTasks(response.data);
     } catch (error) {
       console.error(error);
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     newTask.id != null ? handleUpdateTask() : handleCreateTask();
-    setNewTask(clearNewTask)
+    const response = await api.get(`/tasks-user/${user.name}`);
+    setTasks(response.data);
   };
 
   const handleFilterTags = async (tagsSelected) => {
-    const response = await api.get("/tasks"); // Recarrega todas as tarefas
-    // setTasks(response.data);
+    const response = await api.get(`/tasks-user/${user.name}`); // Recarrega 
+    console.log(response)
 
     const selectedTags = tagsSelected.map((tag) => tag.value)
 
@@ -154,7 +149,7 @@ export default function Board({ tasks, setTasks, status }) {
       console.log('Tasks filtered: ', tasksFiltered)
     } else {
       try {
-        const response = await api.get("/tasks"); // Recarrega todas as tarefas
+        const response = await api.get(`/tasks-user/${user.name}`); // Recarrega todas as tarefas
         setTasks(response.data);
       } catch (error) {
         console.error("Erro ao resetar tasks:", error);
@@ -222,20 +217,22 @@ export default function Board({ tasks, setTasks, status }) {
             isMulti
             placeholder={"Select Tags"}
             options={
-              tags.map((tag) => ({ id: tag.id, value: tag.id, label: tag.name }))
+              tags.filter((tag) => tag.assignedTo == user.name)
+                .map((tag) => ({ id: tag.id, value: tag.id, label: tag.name }))
+
             }
             onChange={(values) =>
               setNewTask((prev) => ({
                 ...prev,
-                tags: values.map(tag => tag.value)
+                Tags: values.map(tag => tag.value)
               })
               )}
             defaultValue={
-              newTask.id ? 
-              newTask.Tags.map((tag) =>
-                ({ label: tag.name, value: tag.id })
-              ) : ""
-            } />
+                newTask.Tags.map((tag) =>
+                  ({ label: tag.name, value: tag.id })
+                )
+            } 
+            />
 
         </div>
       </Modal>

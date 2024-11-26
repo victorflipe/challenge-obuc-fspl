@@ -4,11 +4,15 @@ import Board from "./Board/Board";
 import Tags from "./Tags/Tags";
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
+import Login from "../../components/Login/Login";
+import AppContext from '../../context/AppContext';
 
 export default function Home() {
   const [currentTab, setCurrentTab] = useState("board");
   const [tasks, setTasks] = useState([]);
   const [tags, setTags] = useState([]);
+  const [user, setUser] = useState({});
+  
   const [tasksTableData, setTasksTableData] = useState({
     headers: [
       { label: "To do", column: "pending" },
@@ -25,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await api.get("/tasks");
+        const response = await api.get(`/tasks-user/${user.name}`);
         setTasks(response.data);
       } catch (error) {
         console.error(error);
@@ -48,14 +52,19 @@ export default function Home() {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await api.get("/tags");
-        setTags(response.data);
+        if(user.authenticated){
+          const response = await api.get(`tags-user/${user.name}`);
+          console.log(response.data)
+          setTags(response.data)
+        }       
       } catch (error) {
         console.error(error)
       }
     };
-    fetchTags();
-  }, [])
+    if (user.authenticated){
+      fetchTags();
+    }
+  }, [user])
 
   useEffect(() => {
     setTagsTableData({
@@ -83,8 +92,13 @@ export default function Home() {
 
   return (
     <div id="home-wrapper">
-      <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      {tabs[currentTab]}
+      <AppContext.Provider value={{user, setUser}}>
+      {
+        !user.authenticated ? <Login setUser={setUser} /> :
+          <><Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+            {tabs[currentTab]}</>
+      }
+      </AppContext.Provider>
     </div>
   );
 }
