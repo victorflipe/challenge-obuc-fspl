@@ -24,14 +24,10 @@
 
 .tags-wrapper table{
     border-collapse: collapse;
-    /* border-radius: 10px;
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1); */
 } 
 
 .tags-wrapper table{
     width: 100%;
-    /* overflow: hidden; */
-    /* overflow-y: auto; */
 }
 
 .tags-wrapper .table-header-cell{
@@ -71,4 +67,9 @@ tbody {
     overflow-y: auto;
     border-radius: 10px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.td-noregister{
+    color: #cfcfcf;
+    text-align: center;
 }

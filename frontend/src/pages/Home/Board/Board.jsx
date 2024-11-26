@@ -11,12 +11,13 @@ import { api } from "../../../services/api";
 import makeAnimated from 'react-select/animated';
 import Select from 'react-select'
 import AppContext from "../../../context/AppContext";
+import Swal from "sweetalert2";
 
 
 export default function Board({ tasks, setTasks }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tags, setTags] = useState([]);
-  const {user} = useContext(AppContext)
+  const { user } = useContext(AppContext)
   const clearNewTask = {
     title: "",
     description: "",
@@ -26,10 +27,7 @@ export default function Board({ tasks, setTasks }) {
   };
   const [newTask, setNewTask] = useState(clearNewTask);
 
-  useEffect(() => {
-    console.log("newTask atualizado:", newTask);
-  }, [newTask]);
-
+  
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -43,7 +41,7 @@ export default function Board({ tasks, setTasks }) {
         console.error(error)
       }
     };
-    
+
     fetchTags()
   }, [user]);
 
@@ -61,13 +59,44 @@ export default function Board({ tasks, setTasks }) {
       if (!newTask) {
         return;
       }
-      try {
-        await api.delete(`/tasks/${newTask.id}`);
-        setTasks((prev) => prev.filter((task) => task.id !== newTask.id));
-      } catch (error) {
-        console.error(error);
-      }
-      handleCloseModal()
+
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+      });
+
+      swalWithBootstrapButtons.fire({
+        title: "Deletar Tarefa?",
+        text: "Essa alteração será permanente",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sim",
+        cancelButtonText: "Não",
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await api.delete(`/tasks/${newTask.id}`);
+            setTasks((prev) => prev.filter((task) => task.id !== newTask.id));
+          } catch (error) {
+            console.error(error);
+          }
+          handleCloseModal()
+          swalWithBootstrapButtons.fire({
+            title: "Tarefa removida!",
+            text: "Tarefa removida com sucesso.",
+            icon: "success"
+          });
+
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        );
+      });
+
+
     },
     [newTask, setTasks]
   );
@@ -134,8 +163,7 @@ export default function Board({ tasks, setTasks }) {
   };
 
   const handleFilterTags = async (tagsSelected) => {
-    const response = await api.get(`/tasks-user/${user.name}`); // Recarrega 
-    console.log(response)
+    const response = await api.get(`/tasks-user/${user.name}`); 
 
     const selectedTags = tagsSelected.map((tag) => tag.value)
 
@@ -146,10 +174,9 @@ export default function Board({ tasks, setTasks }) {
 
       setTasks(tasksFiltered)
 
-      console.log('Tasks filtered: ', tasksFiltered)
     } else {
       try {
-        const response = await api.get(`/tasks-user/${user.name}`); // Recarrega todas as tarefas
+        const response = await api.get(`/tasks-user/${user.name}`);
         setTasks(response.data);
       } catch (error) {
         console.error("Erro ao resetar tasks:", error);
@@ -232,8 +259,8 @@ export default function Board({ tasks, setTasks }) {
                 newTask.Tags.map((tag) =>
                   ({ label: tag.name, value: tag.id })
                 ) : ""
-            } 
-            />
+            }
+          />
 
         </div>
       </Modal>

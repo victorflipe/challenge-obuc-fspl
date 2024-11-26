@@ -133,7 +133,7 @@ export default function Tags({ tags, setTags }) {
           <tbody>
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={headers.length}>Nenhuma TAG cadastrada</td>
+                <td className="td-noregister" colSpan={headers.length}>Nenhuma TAG cadastrada</td>
               </tr>
             ) : (
               rows.map((row) => (
