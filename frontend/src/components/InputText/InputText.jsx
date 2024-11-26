@@ -5,6 +5,7 @@ export default function InputText({
   placeholder,
   textarea,
   required,
+  value="",
   onChange = () => {},
 }) {
   return (
@@ -18,6 +19,7 @@ export default function InputText({
             placeholder={placeholder}
             required={required}
             onChange={onChange}
+            value={value}
           />
         </>
       ) : (
@@ -30,6 +32,7 @@ export default function InputText({
             name="input-text"
             placeholder={placeholder}
             required={required}
+            value={value}
           />
         </>
       )}
@@ -43,4 +46,5 @@ InputText.propTypes = {
   textarea: PropTypes.bool,
   required: PropTypes.bool,
   onChange: PropTypes.func,
+  value: PropTypes.string
 };

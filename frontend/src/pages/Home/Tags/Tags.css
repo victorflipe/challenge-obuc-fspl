@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 60%;
+    width: 40%;
     box-sizing: border-box;
     gap: 3.25rem;
 }
@@ -20,4 +20,55 @@
 .form-wrapper form {
     display: flex;
     gap: 1rem;
+}
+
+.tags-wrapper table{
+    border-collapse: collapse;
+    /* border-radius: 10px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1); */
+} 
+
+.tags-wrapper table{
+    width: 100%;
+    /* overflow: hidden; */
+    /* overflow-y: auto; */
+}
+
+.tags-wrapper .table-header-cell{
+    font-size: medium;
+    color: #a1a1a1
+}
+
+.tags-wrapper tbody tr{
+    border-bottom: 2px solid #eaecf0;
+    margin: 0 2rem;
+}
+
+.tags-wrapper td{
+    padding: 1.5rem 2rem;
+    height: 1.2rem;
+}
+
+.td-options{
+    display: flex;
+    justify-content: end;
+    width: auto;
+    column-gap: 0.5rem;
+}
+
+tbody {
+    font-weight: bold
+}
+
+.p-edition{
+    color: #cfcfcf;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.div-container-tags{
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
 }

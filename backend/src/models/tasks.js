@@ -3,7 +3,13 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     class Task extends Model {
-        static associate(models) { }
+        static associate(models) {
+            Task.belongsToMany(models.Tag, {
+                through: 'TaskTag',
+                foreignKey: 'TaskId',
+                otherKey: 'TagId'
+            })
+        }
     }
 
     Task.init(
@@ -20,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             assignedTo: {
                 type: DataTypes.STRING,
                 allowNull: true,
+            },
+            title: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
             createdAt: {
                 type: DataTypes.DATE,

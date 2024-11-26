@@ -1,30 +1,32 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Tasks', {
+    await queryInterface.createTable('TaskTag', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false
+      TaskId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tasks',
+          key: "id"
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      status: {
-        type: Sequelize.ENUM('pending', 'inProgress', 'completed'),
-        allowNull: false,
-        defaultValue: 'pending'
-      },
-      assignedTo: {
-        type: Sequelize.STRING,
-        allowNull: true
+      TagId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Tags',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -38,7 +40,8 @@ module.exports = {
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Tasks');
+   await queryInterface.dropTable('TaskTag')
   }
 };

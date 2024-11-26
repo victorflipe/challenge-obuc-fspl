@@ -8,24 +8,20 @@ import { api } from "../../services/api";
 export default function Home() {
   const [currentTab, setCurrentTab] = useState("board");
   const [tasks, setTasks] = useState([]);
+  const [tags, setTags] = useState([]);
   const [tasksTableData, setTasksTableData] = useState({
     headers: [
-      { label: "Responsible", column: "assignedTo" },
-      { label: "Description", column: "description" },
-      { label: "Status", column: "status" },
+      { label: "To do", column: "pending" },
+      { label: "In Progress", column: "inProgress" },
+      { label: "Done", column: "completed" },
     ],
     rows: [],
   });
 
-  const mockTags = {
-    headers: [{ label: "Tag", column: "tag" }],
-    rows: [
-      { id: 1, tag: "Design" },
-      { id: 2, tag: "Frontend" },
-      { id: 3, tag: "Backend" },
-    ],
-  };
-
+  const [tagsTableData, setTagsTableData] = useState({
+    headers: [{ label: "Tag Name", column: "tag" }],
+    rows: [],
+  });
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -41,17 +37,38 @@ export default function Home() {
   useEffect(() => {
     setTasksTableData({
       headers: [
-        { label: "Responsible", column: "assignedTo" },
-        { label: "Description", column: "description" },
-        { label: "Status", column: "status" },
+        { label: "To do", column: "pending" },
+        { label: "In Progress", column: "inProgress" },
+        { label: "Done", column: "completed" },
       ],
       rows: tasks,
     });
   }, [tasks, setTasks]);
 
-  const [tags, setTags] = useState(mockTags);
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await api.get("/tags");
+        setTags(response.data);
+      } catch (error) {
+        console.error(error)
+      }
+    };
+    fetchTags();
+  }, [])
 
-  const statusOptions = [{ id: 1, value: "pending", label: "Pending" }];
+  useEffect(() => {
+    setTagsTableData({
+      headers: [{ label: "Tag Name", column: "tag" }],
+      rows: tags,
+    });
+  }, [tags, setTags]);
+
+  const statusOptions = [
+    { id: 1, value: "pending", label: "Pending" },
+    { id: 2, value: "inProgress", label: "In Progress" },
+    { id: 3, value: "completed", label: "Done" }
+  ];
 
   const tabs = {
     board: (
@@ -61,9 +78,9 @@ export default function Home() {
         setTasks={setTasks}
       />
     ),
-    tags: <Tags tags={tags} setTags={setTags} />,
+    tags: <Tags tags={tagsTableData} setTags={setTags} />,
   };
-  
+
   return (
     <div id="home-wrapper">
       <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />

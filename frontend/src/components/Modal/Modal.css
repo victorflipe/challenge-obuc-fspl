@@ -46,10 +46,16 @@
     padding: 1.5rem;
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 1rem;
     box-sizing: border-box;
     border-top: 1px solid #DADADA;
+}
+
+.modal-footer-two{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .close-button {

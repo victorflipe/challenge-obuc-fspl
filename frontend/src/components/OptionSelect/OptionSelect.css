@@ -24,3 +24,14 @@
     border: none;
     outline: 2px solid #DBEAFB;
 }
+
+.select-wrapper select[multiple] {
+    height: auto; /* Expande conforme opções selecionadas */
+    padding-right: 2.5rem; /* Espaço extra para o ícone */
+}
+
+.select-wrapper select:focus {
+    border: none;
+    outline: 2px solid #DBEAFB;
+    background-color: rgba(238, 242, 245, 0.75);
+}

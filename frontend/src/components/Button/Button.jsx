@@ -4,12 +4,13 @@ export default function Button({
   children,
   onClick,
   secondaryStyle = false,
+  deleteStyle = false,
   typeSubmit = false,
 }) {
   return (
     <div className="button-wrapper">
       <button
-        className={secondaryStyle ? "secondary-button" : "primary-button"}
+        className={secondaryStyle ? "secondary-button" : deleteStyle ? "delete-button" : "primary-button"}
         onClick={onClick}
         type={typeSubmit ? "submit" : "button"}
       >

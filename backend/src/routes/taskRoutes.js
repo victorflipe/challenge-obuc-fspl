@@ -12,4 +12,12 @@ router.route('/tasks/:id')
     .patch(taskController.updateTask)
     .delete(taskController.deleteTask)
 
+
+router.route('/tasks/:id/tags')
+    .post(taskController.addTagsToTask)
+    .put(taskController.updateTagsForTask);
+
+// router.route('/tasks/:id/tags')
+
+
 module.exports = router;
